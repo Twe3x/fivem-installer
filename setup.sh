@@ -5,7 +5,7 @@ if [[ $? == 127  ]]; then  apt -y install curl; fi
 
 source <(curl -s https://raw.githubusercontent.com/GermanJag/BashSelect.sh/main/BashSelect.sh)
 
-export OPTIONS=("install fivem" "update fivem" "install database" "exit")
+export OPTIONS=("install FiveM" "update FiveM" "install MySQL/MariaDB and PHPMyAdmin" "do nothing")
 
 bashSelect
 
@@ -17,5 +17,5 @@ case $? in
      2 )
         bash <(curl -s https://raw.githubusercontent.com/GermanJag/PHPMyAdminInstaller/main/install.sh);;
      3 )
-        printf "";;
+        exit 0
 esac
