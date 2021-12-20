@@ -1,5 +1,8 @@
 #!/bin/bash
 
+curl --version
+if [[ $? == 127  ]]; then  apt -y install curl; fi
+
 source <(curl -s https://raw.githubusercontent.com/GermanJag/BashSelect.sh/main/BashSelect.sh)
 
 export OPTIONS=("install fivem" "update fivem" "install database" "exit")
