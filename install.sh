@@ -32,9 +32,9 @@ runCommand(){
 
 function examServData() {
 
-  runCommand "mkdir -p /home/FiveM/server-data"
+  runCommand "mkdir -p $dir/server-data"
 
-  runCommand "git clone -q https://github.com/citizenfx/cfx-server-data.git /home/FiveM/server-data" "Die server-data wird heruntergeladen"
+  runCommand "git clone -q https://github.com/citizenfx/cfx-server-data.git $dir/server-data" "Die server-data wird heruntergeladen"
 
   status "Creating example server.cfg"
 
@@ -240,9 +240,9 @@ if [[ -z "$port" ]]; then
     echo -e "\n${green}${bold}TxAdmin${reset}${green} was started successfully${reset}"
     txadmin="http://$(ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'):40120"
     echo -e "\n\n${red}${uline}__Commands just usable via SSH__\n"
-    echo -e "${red}To ${reset}${blue}start${reset}${red} TxAdmin run ${reset}${bold}**/home/FiveM/start.sh**${reset} ${red}!\n"
-    echo -e "${red}To ${reset}${blue}stop${reset}${red} TxAdmin run ${reset}${bold}**/home/FiveM/stop.sh**${reset} ${red}!\n"
-    echo -e "${red}To see the ${reset}${blue}\"Live Console\"${reset}${red} run ${reset}${bold}**/home/FiveM/attach.sh**${reset} ${red}!\n"
+    echo -e "${red}To ${reset}${blue}start${reset}${red} TxAdmin run ${reset}${bold}**$dir$dir$dir/start.sh**${reset} ${red}!\n"
+    echo -e "${red}To ${reset}${blue}stop${reset}${red} TxAdmin run ${reset}${bold}**$dir/stop.sh**${reset} ${red}!\n"
+    echo -e "${red}To see the ${reset}${blue}\"Live Console\"${reset}${red} run ${reset}${bold}**$dir/attach.sh**${reset} ${red}!\n"
 
     echo -e "\n${green}TxAdmin Webinterface: ${reset}${blue}${txadmin}\n"
 
