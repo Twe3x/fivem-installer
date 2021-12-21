@@ -38,7 +38,7 @@ function examServData() {
 
   status "Creating example server.cfg"
 
-  cat << EOF > /home/FiveM/server-data/server.cfg
+  cat << EOF > $dir/server-data/server.cfg
   # Only change the IP if you're using a server with multiple network interfaces, otherwise change the port only.
 endpoint_add_tcp "0.0.0.0:30120"
 endpoint_add_udp "0.0.0.0:30120"
@@ -237,9 +237,9 @@ if [[ -z "$port" ]]; then
     rm /tmp/fivem.log.tmp
     clear
 
-    echo -e "\n${green}${bold}TxAdmin${reset}${green} wurde erfolgreich gestartet${reset}"
+    echo -e "\n${green}${bold}TxAdmin${reset}${green} was started successfully${reset}"
     txadmin="http://$(ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'):40120"
-    echo -e "\n\n${red}${uline}__Wichtige Informationen(Befehle nur via SSH nutzbar):__\n"
+    echo -e "\n\n${red}${uline}__Commands just usable via SSH__\n"
     echo -e "${red}To ${reset}${blue}start${reset}${red} TxAdmin run ${reset}${bold}**/home/FiveM/start.sh**${reset} ${red}!\n"
     echo -e "${red}To ${reset}${blue}stop${reset}${red} TxAdmin run ${reset}${bold}**/home/FiveM/stop.sh**${reset} ${red}!\n"
     echo -e "${red}To see the ${reset}${blue}\"Live Console\"${reset}${red} run ${reset}${bold}**/home/FiveM/attach.sh**${reset} ${red}!\n"
