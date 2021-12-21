@@ -106,6 +106,10 @@ if [ "$EUID" -ne 0 ]; then
 	exit
 fi
 
+if [[ $1 == phpma ]]; then
+  phpmaInstall=0
+fi
+
 status "Select deplyoment type"
 export OPTIONS=("Install template via TxAdmin" "Use the cfx-server-data")
 bashSelect
@@ -152,6 +156,10 @@ if [[ -e $dir ]]; then
       exit 0
       ;;
   esac
+fi
+
+if [[ $phpmaInstall == 0 ]]; then
+  bash <(curl -s https://raw.githubusercontent.com/GermanJag/PHPMyAdminInstaller/main/install.sh) -s
 fi
 
 runCommand "mkdir -p $dir/server" "Create directorys for the FiveM server"
@@ -239,21 +247,20 @@ if [[ -z "$port" ]]; then
 
     echo -e "\n${green}${bold}TxAdmin${reset}${green} was started successfully${reset}"
     txadmin="http://$(ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'):40120"
-    echo -e "\n\n${red}${uline}__Commands just usable via SSH__\n"
-    echo -e "${red}To ${reset}${blue}start${reset}${red} TxAdmin run ${reset}${bold}**$dir$dir$dir/start.sh**${reset} ${red}!\n"
-    echo -e "${red}To ${reset}${blue}stop${reset}${red} TxAdmin run ${reset}${bold}**$dir/stop.sh**${reset} ${red}!\n"
-    echo -e "${red}To see the ${reset}${blue}\"Live Console\"${reset}${red} run ${reset}${bold}**$dir/attach.sh**${reset} ${red}!\n"
+    echo -e "\n\n${red}${uline}Commands just usable via SSH\n"
+    echo -e "${red}To ${reset}${blue}start${reset}${red} TxAdmin run ${reset}${bold}$dir$dir$dir/start.sh${reset} ${red}!\n"
+    echo -e "${red}To ${reset}${blue}stop${reset}${red} TxAdmin run ${reset}${bold}$dir/stop.sh${reset} ${red}!\n"
+    echo -e "${red}To see the ${reset}${blue}\"Live Console\"${reset}${red} run ${reset}${bold}$dir/attach.sh${reset} ${red}!\n"
 
     echo -e "\n${green}TxAdmin Webinterface: ${reset}${blue}${txadmin}\n"
 
-    echo -e "${green}Pin: **${pin:(-4)}** (use it in the next 5 minutes!)"
+    echo -e "${green}Pin: ${reset}${blue}${pin:(-4)}${reset}${green} (use it in the next 5 minutes!)"
 
-    echo -e "\n${green}Server-Data Pfad: ${reset}${blue}**$dir/server-data**${reset}"
+    echo -e "\n${green}Server-Data Pfad: ${reset}${blue}$dir/server-data${reset}"
 
     if [[ $phpmaInstall == 0 ]]; then
       echo
       echo "MariaDB and PHPMyAdmin data:"
-      echo
       runCommand "cat /root/.mariadbPhpma.output" 
       runCommand "rm /root/.mariadbPhpma.output"
       fivempasswd=$( pwgen 32 1 );
@@ -268,7 +275,7 @@ FiveM MySQL-Data
         set mysql_connection_string \"server=127.0.0.1;database=fivem;userid=fivem;password=${fivempasswd}\""
 
     fi
-    sleep 5
+    sleep 2
 
 else
     echo -e "\n${red}The default ${reset}${bold}TxAdmin${reset}${red} port is already in use -> Is a ${reset}${bold}FiveM Server${reset}${red} already running?${reset}"
