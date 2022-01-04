@@ -15,4 +15,7 @@ bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/setu
 > * install FiveM  ➡️ this is just going to setup TxAdmin
 > * install FiveM AND MySQL/MariaDB + PHPMyAdmin ➡️ this is going to install TxAdmin and MariaDB, > Apache2, PHP and PHPMyAdmin
 > * update FiveM ➡️ this is going to update the TxAdmin installation (not yet recommended)
-> * do nothing ➡️ exit 
+> * do nothing ➡️ exit
+
+## ❗LICENSE:
+This software is distributed under the [ license](/LICENSE).
