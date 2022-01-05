@@ -163,14 +163,14 @@ if [[ $phpmaInstall == 0 ]]; then
 fi
 
 runCommand "mkdir -p $dir/server" "Create directorys for the FiveM server"
-runCommand "cd $dir/server/"	
+runCommand "cd $dir/server/"
 
 
 runCommand "wget https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/\$(wget -qO- https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ | egrep -m 1 -o '............................................./*\\/fx.tar.xz')" "FxServer is getting downloaded"
 
 runCommand "tar xf fx.tar.xz" "unpacking FxServer archive"
 runCommand "rm fx.tar.xz"
-	
+
 case $deployType in
   0 )
     sleep 0;;# do nothing
@@ -207,7 +207,7 @@ port=$(lsof -Pi :40120 -sTCP:LISTEN -t)
 if [[ -z "$port" ]]; then
 
 	if [[ -e '/tmp/fivem.log' ]]; then
-    rm /tmp/fivem.log	
+    rm /tmp/fivem.log
 	fi
     screen -L -Logfile /tmp/fivem.log -dmS fivem $dir/server/run.sh
 
@@ -261,7 +261,7 @@ if [[ -z "$port" ]]; then
     if [[ $phpmaInstall == 0 ]]; then
       echo
       echo "MariaDB and PHPMyAdmin data:"
-      runCommand "cat /root/.mariadbPhpma.output" 
+      runCommand "cat /root/.mariadbPhpma.output"
       runCommand "rm /root/.mariadbPhpma.output"
       fivempasswd=$( pwgen 32 1 );
       mariadb -e "CREATE DATABASE fivem;"

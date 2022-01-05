@@ -21,7 +21,7 @@ sudo apt install git screen xz-utils -y
 
 clear
 
-dir=/home/FiveM/FXServer/server
+dir=/home/FiveM/server
 
 if [ -e /home/FiveM/ ]
 then
@@ -51,7 +51,7 @@ then
 	sleep 1
 
 	clear
-	
+
 	rm -r $dir/fx.tar.xz
 	echo "${red}Deleting ${nc}fx.tar.xz"
 
