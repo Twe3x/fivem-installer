@@ -7,7 +7,7 @@ reset="\e[0m"
 curl --version
 if [[ $? == 127  ]]; then  apt -y install curl; fi
 source <(curl -s https://raw.githubusercontent.com/GermanJag/BashSelect.sh/main/BashSelect.sh)
-
+clear
 status(){
   clear
   echo -e $green$@'...'$reset
@@ -263,9 +263,11 @@ if [[ -z "$port" ]]; then
       echo "MariaDB and PHPMyAdmin data:"
       runCommand "cat /root/.mariadbPhpma.output"
       runCommand "rm /root/.mariadbPhpma.output"
+      rootPasswordMariaDB=$( cat /root/.mariadbRoot )
+      rm /root/.mariadbRoot
       fivempasswd=$( pwgen 32 1 );
-      mariadb -e "CREATE DATABASE fivem;"
-      mariadb -e "GRANT ALL PRIVILEGES ON fivem.* TO 'fivem'@'localhost' IDENTIFIED BY '${fivempasswd}';"
+      mariadb -u root -p$rootPasswordMariaDB -e "CREATE DATABASE fivem;"
+      mariadb -u root -p$rootPasswordMariaDB -e "GRANT ALL PRIVILEGES ON fivem.* TO 'fivem'@'localhost' IDENTIFIED BY '${fivempasswd}';"
       echo "
 FiveM MySQL-Data
     User: fivem
