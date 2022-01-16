@@ -261,8 +261,8 @@ if [[ -z "$port" ]]; then
     if [[ $phpmaInstall == 0 ]]; then
       echo
       echo "MariaDB and PHPMyAdmin data:"
-      runCommand "cat /root/.mariadbPhpma.output"
-      runCommand "rm /root/.mariadbPhpma.output"
+      runCommand "cat /root/.mariadbPhpma"
+      runCommand "rm /root/.mariadbPhpma"
       rootPasswordMariaDB=$( cat /root/.mariadbRoot )
       rm /root/.mariadbRoot
       fivempasswd=$( pwgen 32 1 );
