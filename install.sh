@@ -202,6 +202,18 @@ runCommand "chmod +x $dir/attach.sh"
 runCommand "echo \"screen -XS fivem quit\" > $dir/stop.sh"
 runCommand "chmod +x $dir/stop.sh"
 
+status "Create crontab to autostart txadmin (recommended)"
+  export OPTIONS=("yes" "no")
+  bashSelect
+  case $? in
+    0 )
+      status "Create crontab entry"
+      runCommand "echo \"@reboot         root    cd /home/FiveM/ && bash start.sh\" >> /etc/crontab"
+      ;;
+    1 )
+      sleep 0;;
+  esac
+
 port=$(lsof -Pi :40120 -sTCP:LISTEN -t)
 
 if [[ -z "$port" ]]; then
