@@ -188,7 +188,7 @@ bold="\e[1m"
 reset="\e[0m"
 port=\$(lsof -Pi :40120 -sTCP:LISTEN -t)
 if [ -z "\$port" ]; then
-    screen -dmS fivem $dir/server/run.sh
+    screen -dmS fivem sh $dir/server/run.sh
     echo -e "\n\${green}TxAdmin was started!\${reset}"
 else
     echo -e "\n\${red}The default \${reset}\${bold}TxAdmin\${reset}\${red} is already in use -> Is a \${reset}\${bold}FiveM Server\${reset}\${red} already started?\${reset}"
