@@ -36,7 +36,7 @@ then
 	clear
 
     echo "Downloading ${yellow}fx.tar.xz${nc}"
-	string=`wget -qO- https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ | egrep -m 3 -o "............................................./*\/fx.tar.xz"`
+	string=`curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ | egrep -m 1 -o "[0-9].*/fx.tar.xz"`
 	newstring=$( echo $string | cut -c113- )
 	wget --directory-prefix=$dir https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/$newstring
 	echo "${green}Success${nc}"
