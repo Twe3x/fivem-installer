@@ -35,11 +35,11 @@ bashSelect
 
 case $? in
      0 )
-        bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/install.sh) runtime_link;;
+        bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/install.sh) $runtime_link;;
      1 )
-        bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/install.sh) runtime_link phpma;;
+        bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/install.sh) $runtime_link phpma;;
      2 )
-        bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/update.sh) runtime_link;;
+        bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/update.sh) $runtime_link;;
      3 )
         bash <(curl -s https://raw.githubusercontent.com/GermanJag/PHPMyAdminInstaller/main/install.sh);;
      4 )
