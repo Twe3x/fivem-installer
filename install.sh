@@ -4,8 +4,8 @@ green="\e[0;92m"
 bold="\e[1m"
 reset="\e[0m"
 
-curl --version
-if [[ $? == 127  ]]; then  apt -y install curl; fi
+
+
 source <(curl -s https://raw.githubusercontent.com/GermanJag/BashSelect.sh/main/BashSelect.sh)
 clear
 status(){
@@ -106,7 +106,7 @@ if [ "$EUID" -ne 0 ]; then
 	exit
 fi
 
-if [[ $1 == phpma ]]; then
+if [[ $2 == phpma ]]; then
   phpmaInstall=0
 fi
 
@@ -166,7 +166,7 @@ runCommand "mkdir -p $dir/server" "Create directorys for the FiveM server"
 runCommand "cd $dir/server/"
 
 
-runCommand "wget https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/\$(curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ | egrep -m 1 -o '[0-9].*/fx.tar.xz')" "FxServer is getting downloaded"
+runCommand "wget $1" "FxServer is getting downloaded"
 
 runCommand "tar xf fx.tar.xz" "unpacking FxServer archive"
 runCommand "rm fx.tar.xz"

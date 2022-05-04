@@ -6,21 +6,6 @@ green="$(tput setaf 2)"
 nc="$(tput sgr0)"
 
 
-clear
-echo apt update...
-sleep 1
-sudo apt update -y
-clear
-echo apt upgrade...
-sleep 1
-sudo apt upgrade -y
-clear
-echo installing git...
-sleep 2
-sudo apt install git screen xz-utils -y
-
-clear
-
 dir=/home/FiveM/server
 
 if [ -e /home/FiveM/ ]
@@ -36,9 +21,7 @@ then
 	clear
 
     echo "Downloading ${yellow}fx.tar.xz${nc}"
-	string=`curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ | egrep -m 1 -o "[0-9].*/fx.tar.xz"`
-	newstring=$( echo $string | cut -c113- )
-	wget --directory-prefix=$dir https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/$newstring
+	wget --directory-prefix=$dir $1
 	echo "${green}Success${nc}"
 
 	sleep 1
