@@ -9,20 +9,6 @@ curl --version
 if [[ $? == 127  ]]; then  apt -y install curl; fi
 
 clear
-echo apt update...
-sleep 1
-sudo apt update -y
-clear
-echo apt upgrade...
-sleep 1
-sudo apt upgrade -y
-clear
-echo installing git...
-sleep 2
-sudo apt install git screen xz-utils -y
-
-clear
-
 
 readarray -t VERSIONS <<< $(curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ | egrep -m 3 -o '[0-9].*/fx.tar.xz')
 runtime_link="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSIONS[2]}"
