@@ -10,24 +10,19 @@ if [[ $? == 127  ]]; then  apt -y install curl; fi
 
 clear
 
-readarray -t VERSIONS <<< $(curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ | egrep -m 3 -o '[0-9].*/fx.tar.xz')
-runtime_link="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSIONS[2]}"
-
 source <(curl -s https://raw.githubusercontent.com/GermanJag/BashSelect.sh/main/BashSelect.sh)
 
-export OPTIONS=("install FiveM" "install FiveM AND MySQl/MariaDB + PHPMyAdmin" "update FiveM" "install just MySQL/MariaDB and PHPMyAdmin" "do nothing")
+export OPTIONS=("install FiveM" "install FiveM AND MySQl/MariaDB + PHPMyAdmin" "install just MySQL/MariaDB and PHPMyAdmin" "do nothing")
 
 bashSelect
 
 case $? in
      0 )
-        bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/install.sh) $runtime_link;;
+        bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/install.sh);;
      1 )
-        bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/install.sh) $runtime_link phpma;;
+        bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/install.sh) phpma;;
      2 )
-        bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/update.sh) $runtime_link;;
-     3 )
         bash <(curl -s https://raw.githubusercontent.com/GermanJag/PHPMyAdminInstaller/main/install.sh);;
-     4 )
+     3 )
         exit 0
 esac
