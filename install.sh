@@ -106,7 +106,7 @@ if [ "$EUID" -ne 0 ]; then
 	exit
 fi
 
-if [[ $2 == phpma ]]; then
+if [[ $1 == phpma ]]; then
   phpmaInstall=0
 fi
 
