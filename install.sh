@@ -137,7 +137,7 @@ esac
 
 
 
-status "Select deplyoment type"
+status "Select deployment type"
 export OPTIONS=("Install template via TxAdmin" "Use the cfx-server-data")
 bashSelect
 deployType=$( echo $? )
