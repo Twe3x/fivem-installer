@@ -6,7 +6,7 @@ reset="\e[0m"
 
 
 
-source <(curl -s https://raw.githubusercontent.com/GermanJag/BashSelect.sh/main/BashSelect.sh)
+source <(curl -s https://raw.githubusercontent.com/JulianGransee/BashSelect.sh/main/BashSelect.sh)
 clear
 status(){
   clear
