@@ -5,6 +5,7 @@ bold="\e[1m"
 reset="\e[0m"
 
 
+runtime_link=$1
 
 source <(curl -s https://raw.githubusercontent.com/JulianGransee/BashSelect.sh/main/BashSelect.sh)
 clear
@@ -109,32 +110,6 @@ fi
 if [[ $1 == phpma ]]; then
   phpmaInstall=0
 fi
-
-
-# Runtime Version 
-status "Select a runtime version"
-readarray -t VERSIONS <<< $(curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ | egrep -m 3 -o '[0-9].*/fx.tar.xz')
-
-latest_recommended=$(echo "${VERSIONS[0]}" | cut -c 1-4)
-latest=$(echo "${VERSIONS[2]}" | cut -c 1-4)
-
-export OPTIONS=("latest recommended version -> $latest_recommended" "latest version -> $latest" "choose custom version" "do nothing")
-
-bashSelect
-
-case $? in
-     0 )
-        runtime_link="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSIONS[0]}";;
-     1 )
-        runtime_link="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSIONS[2]}";;
-     2 )
-        clear
-        read -p "Enter the download link: " runtime_link
-        ;;
-     3 )
-        exit 0
-esac
-
 
 
 status "Select deployment type"
