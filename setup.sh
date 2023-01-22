@@ -56,7 +56,7 @@ case $? in
 esac
 
 if [[ $install == true ]]; then
-  bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/install.sh) runtime_link
+  bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/install.sh) $runtime_link
 else
-  bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/update.sh) runtime_link
+  bash <(curl -s https://raw.githubusercontent.com/Twe3x/fivem-installer/main/update.sh) $runtime_link
 fi
