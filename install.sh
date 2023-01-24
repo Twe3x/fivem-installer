@@ -31,6 +31,22 @@ runCommand(){
 }
 
 
+source <(curl -s https://raw.githubusercontent.com/JulianGransee/BashSelect.sh/main/BashSelect.sh)
+
+status "Install MariaDB/MySQL and phpmyadmin"
+
+export OPTIONS=("yes" "no")
+
+bashSelect
+
+case $? in
+     0 )
+        phpmaInstall=0;;
+     1 )
+        ;;
+esac
+
+
 function examServData() {
 
   runCommand "mkdir -p $dir/server-data"
@@ -105,10 +121,6 @@ EOF
 if [ "$EUID" -ne 0 ]; then
 	echo -e "${red}Please run as root";
 	exit
-fi
-
-if [[ $1 == phpma ]]; then
-  phpmaInstall=0
 fi
 
 
