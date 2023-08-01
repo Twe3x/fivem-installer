@@ -32,7 +32,7 @@ source <(curl -s https://raw.githubusercontent.com/GermanJag/BashSelect.sh/main/
 clear
 
 
-status "Select the alpine direcotry"
+status "Select the alpine directory"
 readarray -t directorys <<<$(find / -name "alpine")
 export OPTIONS=(${directorys[*]})
 
