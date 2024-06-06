@@ -282,7 +282,7 @@ if [[ -z "$port" ]]; then
 
     echo -e "${green}Pin: ${reset}${blue}${pin:(-4)}${reset}${green} (use it in the next 5 minutes!)"
 
-    echo -e "\n${green}Server-Data Pfad: ${reset}${blue}$dir/server-data${reset}"
+    echo -e "\n${green}Server-Data Path: ${reset}${blue}$dir/server-data${reset}"
 
     if [[ $phpmaInstall == 0 ]]; then
       echo
