@@ -35,8 +35,8 @@ esac
 status "Select a runtime version"
 readarray -t VERSIONS <<< $(curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ | egrep -m 3 -o '[0-9].*/fx.tar.xz')
 
-latest_recommended=$(echo "${VERSIONS[0]}" | cut -c 1-4)
-latest=$(echo "${VERSIONS[2]}" | cut -c 1-4)
+latest_recommended=$(echo "${VERSIONS[0]}" | cut -c 1-5)
+latest=$(echo "${VERSIONS[2]}" | cut -c 1-5)
 
 export OPTIONS=("latest recommended version -> $latest_recommended" "latest version -> $latest" "choose custom version" "do nothing")
 
