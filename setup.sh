@@ -44,9 +44,9 @@ bashSelect
 
 case $? in
      0 )
-        runtime_link="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSIONS[0]}";;
-     1 )
         runtime_link="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSIONS[2]}";;
+     1 )
+        runtime_link="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSIONS[0]}";;
      2 )
         clear
         read -p "Enter the download link: " runtime_link
