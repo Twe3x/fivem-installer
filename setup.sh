@@ -38,7 +38,7 @@ readarray -t VERSIONS <<< $(curl -s https://runtime.fivem.net/artifacts/fivem/bu
 latest_recommended=$(echo "${VERSIONS[0]}" | cut -d'-' -f1)
 latest=$(echo "${VERSIONS[2]}" | cut -d'-' -f1)
 
-export OPTIONS=("latest recommended version -> $latest_recommended" "latest version -> $latest" "choose custom version" "do nothing")
+export OPTIONS=("latest version -> $latest" "latest recommended version -> $latest_recommended" "choose custom version" "do nothing")
 
 bashSelect
 
