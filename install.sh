@@ -301,7 +301,7 @@ FiveM MySQL-Data
     Database name: fivem
       FiveM MySQL Connection-String:
         set mysql_connection_string \"server=127.0.0.1;database=fivem;userid=fivem;password=${fivempasswd}\""
-
+	cat /root/.PHPma
     fi
     sleep 2
 
