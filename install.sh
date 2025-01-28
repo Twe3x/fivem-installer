@@ -41,17 +41,18 @@ bashSelect
 
 case $? in
      0 )
-        phpmaInstall=0;;
+        phpmaInstall=0
+        echo -e "${green}You chose to install MariaDB/MySQL and phpmyadmin.${reset}";;
      1 )
-        ;;
+        echo -e "${red}You chose not to install MariaDB/MySQL and phpmyadmin.${reset}";;
 esac
 
 
 function examServData() {
 
-  runCommand "mkdir -p $dir/server-data"
+  runCommand "mkdir -p $dir/server-data" "Creating server-data directory"
 
-  runCommand "git clone -q https://github.com/citizenfx/cfx-server-data.git $dir/server-data" "Die server-data wird heruntergeladen"
+  runCommand "git clone -q https://github.com/citizenfx/cfx-server-data.git $dir/server-data" "Downloading server-data"
 
   status "Creating example server.cfg"
 
@@ -129,11 +130,11 @@ export OPTIONS=("Install template via TxAdmin" "Use the cfx-server-data")
 bashSelect
 deployType=$( echo $? )
 
-runCommand "apt -y update" "updating"
+runCommand "apt -y update" "Updating package lists"
 
-runCommand "apt -y upgrade " "upgrading"
+runCommand "apt -y upgrade " "Upgrading packages"
 
-runCommand "apt install -y wget git curl dos2unix net-tools sed screen tmux xz-utils lsof" "installing necessary packages"
+runCommand "apt install -y wget git curl dos2unix net-tools sed screen tmux xz-utils lsof" "Installing necessary packages"
 
 clear
 
@@ -142,24 +143,25 @@ dir=/home/FiveM
 lsof -i :40120
 if [[ $( echo $? ) == 0 ]]; then
 
-  status "It looks like there already is something running on the default TxAdmin port. Can we stop/kill it?" "/"
+  status "It looks like there already is something running on the default TxAdmin port. Can we stop/kill it?"
   export OPTIONS=("Kill PID on port 40120" "Exit the script")
   bashSelect
   case $? in
     0 )
-      status "killing PID on 40120"
+      status "Killing process on port 40120"
       runCommand "apt -y install psmisc"
 	  runCommand "fuser -4 40120/tcp -k"
       ;;
     1 )
+      echo -e "${red}Exiting the script.${reset}"
       exit 0
       ;;
   esac
 fi
 
 if [[ -e $dir ]]; then
-  status "It looks like there already is a $dir directory. Can we remove it?" "/"
-  export OPTIONS=("Remove everything in $dir" "Exit the script ")
+  status "It looks like there already is a $dir directory. Can we remove it?"
+  export OPTIONS=("Remove everything in $dir" "Exit the script")
   bashSelect
   case $? in
     0 )
@@ -167,6 +169,7 @@ if [[ -e $dir ]]; then
       runCommand "rm -r $dir"
       ;;
     1 )
+      echo -e "${red}Exiting the script.${reset}"
       exit 0
       ;;
   esac
@@ -176,19 +179,21 @@ if [[ $phpmaInstall == 0 ]]; then
   bash <(curl -s https://raw.githubusercontent.com/JulianGransee/PHPMyAdminInstaller/main/install.sh) -s
 fi
 
-runCommand "mkdir -p $dir/server" "Create directorys for the FiveM server"
+runCommand "mkdir -p $dir/server" "Creating directories for the FiveM server"
 runCommand "cd $dir/server/"
 
 
-runCommand "wget $runtime_link" "FxServer is getting downloaded"
+runCommand "wget $runtime_link" "Downloading FxServer"
 
-runCommand "tar xf fx.tar.xz" "unpacking FxServer archive"
+runCommand "tar xf fx.tar.xz" "Unpacking FxServer archive"
 runCommand "rm fx.tar.xz"
 
 case $deployType in
   0 )
-    sleep 0;;# do nothing
+    echo -e "${green}You chose to install the template via TxAdmin.${reset}"
+    sleep 0;;
   1 )
+    echo -e "${green}You chose to use the cfx-server-data.${reset}"
     examServData
     ;;
 esac
@@ -205,7 +210,7 @@ if [ -z "\$port" ]; then
     screen -dmS fivem sh $dir/server/run.sh
     echo -e "\n\${green}TxAdmin was started!\${reset}"
 else
-    echo -e "\n\${red}The default \${reset}\${bold}TxAdmin\${reset}\${red} is already in use -> Is a \${reset}\${bold}FiveM Server\${reset}\${red} already started?\${reset}"
+    echo -e "\n\${red}The default \${reset}\${bold}TxAdmin\${reset}\${red} port is already in use -> Is a \${reset}\${bold}FiveM Server\${reset}\${red} already started?\${reset}"
 fi
 EOF
 runCommand "chmod +x $dir/start.sh"
@@ -217,16 +222,17 @@ runCommand "echo \"screen -XS fivem quit\" > $dir/stop.sh"
 runCommand "chmod +x $dir/stop.sh"
 
 status "Create crontab to autostart txadmin (recommended)"
-  export OPTIONS=("yes" "no")
-  bashSelect
-  case $? in
-    0 )
-      status "Create crontab entry"
-      runCommand "echo \"@reboot         root    cd /home/FiveM/ && bash start.sh\" >> /etc/crontab"
-      ;;
-    1 )
-      sleep 0;;
-  esac
+export OPTIONS=("yes" "no")
+bashSelect
+case $? in
+  0 )
+    status "Creating crontab entry"
+    runCommand "echo \"@reboot         root    cd /home/FiveM/ && bash start.sh\" >> /etc/crontab"
+    ;;
+  1 )
+    echo -e "${red}Skipping crontab entry creation.${reset}"
+    sleep 0;;
+esac
 
 port=$(lsof -Pi :40120 -sTCP:LISTEN -t)
 
