@@ -613,8 +613,9 @@ if [[ "${non_interactive}" == "true" && "${install_phpmyadmin}" == "true" ]]; th
             errors+=("${red}Error:${reset} With --non-interactive and --security, --db_user <user> must be set.")
         fi
 
-        if ! printf "%s\n" "${pma_options[@]}" | grep -q -- "--db_password"; then
-            errors+=("${red}Error:${reset} With --non-interactive and --security, --db_password <password> must be set.")
+        if ! printf "%s\n" "${pma_options[@]}" | grep -q -- "--db_password" && 
+           ! printf "%s\n" "${pma_options[@]}" | grep -q -- "--generate_password"; then
+            errors+=("${red}Error:${reset} With --non-interactive and --security, either --db_password <password> or --generate_password must be set.")
         fi
     fi
 
@@ -625,6 +626,5 @@ if [[ "${non_interactive}" == "true" && "${install_phpmyadmin}" == "true" ]]; th
         exit 1
     fi
 fi
-
 
 main
