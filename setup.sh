@@ -561,6 +561,10 @@ while [[ "$#" -gt 0 ]]; do
             ;;
 
         # PHPMyAdmin installer Options:
+	--no-phpmyadmin)
+            install_phpmyadmin=false
+            shift
+            ;;
         --security)
             pma_options+=("--security")
             shift
@@ -607,6 +611,11 @@ if [[ "${non_interactive}" == "true" && "${install_phpmyadmin}" == "true" ]]; th
        ! printf "%s\n" "${pma_options[@]}" | grep -q -- "--simple"; then
         errors+=("${red}Error:${reset} With --non-interactive, either --security or --simple must be set.")
     fi
+
+	if [[ "${install_phpmyadmin}" == "true" && "${install_phpmyadmin}" == "false" ]]; then
+    	echo -e "${red}Error:${reset} --phpmyadmin and --no-phpmyadmin cannot be used simultaneously."
+    	exit 1
+	fi
 
     if printf "%s\n" "${pma_options[@]}" | grep -q -- "--security"; then
         if ! printf "%s\n" "${pma_options[@]}" | grep -q -- "--db_user"; then
