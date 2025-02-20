@@ -278,7 +278,7 @@ function createCrontab(){
     fi
     if [[ "${crontab_autostart}" == "true" ]]; then
         status "Create crontab entry"
-        runCommand "echo \"@reboot          root    cd /home/FiveM/ && bash start.sh\" > /etc/cron.d/fivem.cron"
+        runCommand "echo \"@reboot          root    /bin/bash /home/FiveM/start.sh\" > /etc/cron.d/fivem"
     fi
 }
 
