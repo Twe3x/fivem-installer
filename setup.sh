@@ -36,6 +36,8 @@ dir=/home/FiveM
 update_artifacts=false
 non_interactive=false
 artifacts_version=0
+fivem_enhanced=false
+archive_name=fx.tar.xz
 kill_txAdmin=0
 delete_dir=0
 txadmin_deployment=0
@@ -44,6 +46,24 @@ crontab_autostart=0
 pma_options=()
 
 function selectVersion(){
+
+    if [[ "${artifacts_version}" == "0" && "${non_interactive}" == "false" && "${fivem_enhanced}" == "false" ]]; then
+        status "Select a FiveM version"
+        export OPTIONS=("FiveM" "FiveM for GTA Enhanced")
+        bashSelect
+
+        if [[ $? == 1 ]]; then
+            fivem_enhanced="true"
+        fi
+    fi
+
+    if [[ "${fivem_enhanced}" == "true" ]]; then
+        archive_name="cfx-server_linux_x64.tar.xz"
+        artifacts_version=$(curl -sL https://docs.fivem.net/docs/server-download/ \
+            | sed -n 's/.*__NEXT_DATA__" type="application\/json">\(.*\)<\/script>.*/\1/p' \
+            | jq -r '.props.pageProps.enhanced.linux[0].downloadURL')
+        return
+    fi
 
     readarray -t VERSIONS <<< $(curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ | egrep -m 3 -o '[0-9].*/fx.tar.xz')
 
@@ -308,7 +328,7 @@ function installPma(){
 
 function install(){
     runCommand "apt update -y" "updating"
-    runCommand "apt install -y wget git curl dos2unix net-tools sed screen xz-utils lsof" "installing necessary packages"
+    runCommand "apt install -y wget git curl dos2unix net-tools sed screen xz-utils lsof jq" "installing necessary packages"
 
     checkPort
     checkDir
@@ -324,8 +344,8 @@ function install(){
 
     runCommand "wget $artifacts_version" "FxServer is getting downloaded"
 
-    runCommand "tar xf fx.tar.xz" "unpacking FxServer archive"
-    runCommand "rm fx.tar.xz"
+    runCommand "tar xf $archive_name" "unpacking FxServer archive"
+    runCommand "rm $archive_name"
 
     status "Creating start, stop and access script"
     cat << EOF > $dir/start.sh
@@ -459,9 +479,9 @@ function update() {
     runCommand "rm -f $dir/run.sh" "${red}Deleting run.sh"
     runCommand "wget --directory-prefix=$dir $artifacts_version" "Downloading fx.tar.xz"
     echo "${green}Success"
-    runCommand "tar xf $dir/fx.tar.xz -C $dir" "Unpacking fx.tar.xz"
+    runCommand "tar xf $dir/$archive_name -C $dir" "Unpacking $archive_name"
     echo "${green}Success"
-    runCommand "rm -r $dir/fx.tar.xz" "${red}Deleting fx.tar.xz"
+    runCommand "rm -r $dir/$archive_name" "${red}Deleting $archive_name"
     clear
     echo "${green}Update success"
     exit 0
@@ -507,7 +527,8 @@ while [[ "$#" -gt 0 ]]; do
             echo "      --non-interactive           Skip all interactive prompts by providing all required inputs as options."
             echo "                                  If --phpmyadmin is included, you must also choose between --simple or --security."
             echo "                                      When using --security, you must provide both --db_user and --db_password."
-            echo "  -v, --version <URL|latest>      Choose a artifacts version."
+            echo "  -v, --version <URL|latest|enhanced>  Choose a artifacts version."
+            echo "                                  Use 'enhanced' to install the latest FiveM for GTA Enhanced build."
             echo "                                  Default: latest"
             echo "  -u, --update <path>             Update the artifacts version and specify the directory."
             echo "                                  Use -v or --version to specify the version or it will use the latest version."
@@ -532,7 +553,11 @@ while [[ "$#" -gt 0 ]]; do
             shift
             ;;
         -v|--version)
-            artifacts_version="$2"
+            if [[ "$2" == "enhanced" ]]; then
+                fivem_enhanced=true
+            else
+                artifacts_version="$2"
+            fi
             shift 2
             ;;
         -u|--update)
