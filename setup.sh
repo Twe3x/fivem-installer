@@ -65,41 +65,9 @@ function selectVersion(){
         return
     fi
 
-    readarray -t VERSIONS <<< $(curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ | egrep -m 3 -o '[0-9].*/fx.tar.xz')
-
-    latest_recommended=$(echo "${VERSIONS[0]}" | cut -d'-' -f1)
-    latest=$(echo "${VERSIONS[2]}" | cut -d'-' -f1)
-
-    if [[ "${artifacts_version}" == "0" ]]; then
-        if [[ "${non_interactive}" == "false" ]]; then
-            status "Select a runtime version"
-            export OPTIONS=("latest version -> $latest" "latest recommended version -> $latest_recommended" "choose custom version" "do nothing")
-
-            bashSelect
-
-            case $? in
-                0 )
-                    artifacts_version="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSIONS[2]}"
-                    ;;
-                1 )
-                    artifacts_version="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSIONS[0]}"
-                    ;;
-                2 )
-                    clear
-                    read -p "Enter the download link: " artifacts_version
-                    ;;
-                3 )
-                    exit 0
-            esac
-
-            return
-        else
-            artifacts_version="latest"
-        fi
-    fi
-    if [[ "${artifacts_version}" == "latest" ]]; then
-        artifacts_version="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSIONS[2]}"
-    fi
+    artifacts_version=$(curl -sL https://docs.fivem.net/docs/server-download/ \
+        | sed -n 's/.*__NEXT_DATA__" type="application\/json">\(.*\)<\/script>.*/\1/p' \
+        | jq -r '.props.pageProps.legacy.latest.linux[0].downloadURL')
 }
 
 function examServData() {
